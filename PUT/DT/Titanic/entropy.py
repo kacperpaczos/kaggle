@@ -1,23 +1,26 @@
 from math import e, log
 import numpy as np
+from icecream import ic
 
 def conditional_entropyXY(X, Y):
+    ic(X)
+    ic(Y)
     conj_freq = {}
     prev_freq = {}
-    for i in range(len(X)):
-        if (X[i], Y[i]) in conj_freq:
-            conj_freq[(X[i], Y[i])] += 1
+    for (x_index, x_val), (y_index, y_val) in zip(X.items(), Y.items()):
+        if (x_val, y_val) in conj_freq:
+            conj_freq[(x_val, y_val)] += 1
         else:
-            conj_freq[(X[i], Y[i])] = 1
-        if X[i] in prev_freq:
-            prev_freq[X[i]] += 1
+            conj_freq[(x_val, y_val)] = 1
+        if x_val in prev_freq:
+            prev_freq[x_val] += 1
         else:
-            prev_freq[X[i]] = 1
+            prev_freq[x_val] = 1
     omega = sum(conj_freq.values())
     return -sum([conj_freq[(x, y)] / omega * log(conj_freq[(x, y)] / prev_freq[x], 2) for (x, y) in conj_freq])
 
 
-def _entropy(y, base=None):
+def entropy(y, base=None):
         #print("++++++++++++")
         #from icecream import ic
         #ic(y)
