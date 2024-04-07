@@ -31,17 +31,23 @@ class Node:
 
         self.children={}
 
-        unique_values = list(set(df[sorted_information_gains[0][0]]))
+        unique_values = df[sorted_information_gains[0][0]].unique()
         for value in unique_values:
-            self.children[value] = df[df[sorted_information_gains[0][0]] != value].drop(sorted_information_gains[0][0], axis=1)
+            filtered_df = df[df[sorted_information_gains[0][0]] == value].drop(sorted_information_gains[0][0], axis=1)
+            self.children[value] = Node(filtered_df, column_to_predict, ignore_columns)
+
+        # unique_values = list(set(df[sorted_information_gains[0][0]]))
+        # for value in unique_values:
+        #     self.children[value] = df[df[sorted_information_gains[0][0]] != value].drop(sorted_information_gains[0][0], axis=1)
             
-        list(set(df[sorted_information_gains[0][0]]))
-        dt.create_root(
-            value = sorted_information_gains[0][1],
-            children = children,
-            feature = sorted_information_gains[0][0],
-            threshold=None)
-        print(dt)
+        # list(set(df[sorted_information_gains[0][0]]))
+
+        # dt.create_root(
+        #     value = sorted_information_gains[0][1],
+        #     children = children,
+        #     feature = sorted_information_gains[0][0],
+        #     threshold=None)
+        # print(dt)
 
         df = df.drop('Name', axis=1)
 
@@ -56,7 +62,7 @@ class Node:
 
 class DT:
     def __init__(self, df, column_to_predict, ignore_columns):
-        self.root = Node(df=df, column_to_predict=column_to_predict)
+        self.root = Node(df=df, column_to_predict=column_to_predict, ignore_columns=ignore_columns)
         #self.df = df
 
 #    def create_tree(self, df, column_to_predict):
