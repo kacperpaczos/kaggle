@@ -3,8 +3,6 @@ import numpy as np
 from icecream import ic
 
 def conditional_entropyXY(X, Y):
-    ic(X)
-    ic(Y)
     conj_freq = {}
     prev_freq = {}
     for (x_index, x_val), (y_index, y_val) in zip(X.items(), Y.items()):

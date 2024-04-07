@@ -18,17 +18,18 @@ if os.path.exists(full_path):
     ############
 
     dt = DT(df=df, column_to_predict='Decyzja', ignore_columns=['Uczeń'])
+    
     dupa=dt.visualize_tree()
     import json
 
     visualise = False  # domyślnie ustawione na False
 
     # Konwersja słownika na JSON
-    dupa_json = json.dumps(dupa)
+    wyniki = json.dumps(dupa)
     
     # Zapis JSON do pliku
-    with open('wynik_dupa.json', 'w') as file:
-        file.write(dupa_json)
+    with open('wyniki.json', 'w') as file:
+        file.write(wyniki)
     
     if visualise:
         import matplotlib.pyplot as plt
@@ -39,18 +40,19 @@ if os.path.exists(full_path):
             G = nx.DiGraph()
             
             def add_nodes_edges(data, parent=None):
-                if parent is not None:
-                    G.add_edge(parent, data['name'])
+                node_label = data.get('LEAF', data.get('NODE'))
+                if parent:
+                    G.add_edge(parent, node_label)
                 else:
-                    G.add_node(data['name'])
+                    G.add_node(node_label)
                 for child in data.get('children', []):
-                    add_nodes_edges(child, data['name'])
+                    add_nodes_edges(child, node_label)
                     
             add_nodes_edges(data)
             return G
         
         # Tworzenie grafu
-        G = create_graph_from_json(dupa_json)
+        G = create_graph_from_json(wyniki)
         
         # Rysowanie grafu
         pos = nx.spring_layout(G)
