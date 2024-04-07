@@ -48,8 +48,8 @@ class Node:
                 self.leaf_label = df[column_to_predict].mode()[0]
                 ic(df[column_to_predict].mode()[0])
             else:
-                self.value = 'NIE'
-                self.leaf_label = 'NIE'
+                self.value = '0'
+                self.leaf_label = '0'
                 ic("NNNNNNNNOONE")
             return
 
