@@ -1,6 +1,6 @@
 from entropy import conditional_entropyXY, _entropy
 import pandas as pd
-import icecream as ic
+from icecream import ic
 
 class Node:
     def __init__(self, df: pd.DataFrame, column_to_predict: str, ignore_columns: list[str]):
